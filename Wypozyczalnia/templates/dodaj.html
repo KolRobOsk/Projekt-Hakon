@@ -1,0 +1,46 @@
+<head>
+  <title>Wypożyczalnia</title>
+  {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+  {% load crispy_forms_tags %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-sm bg-light">
+  <form action="home" method="post" class="form">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="home">Strona Główna</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="dodaj">Dodaj Książkę*</a>
+      </li>
+    </ul>
+  {% csrf_token %}
+  {{ form|crispy  }}
+    <div class="container mt-5 w-50">
+            <input type="submit" name="FormularzKsiazek" class="btn btn-success btn-lg" />
+    </div>
+    {% block javascript %}
+    <script>
+        $(document).ready(function () {
+            $('#contactForm').submit(function () {
+                $.ajax({
+                    data: $(this).serialize(),
+                    type: $(this).attr('method'),
+                    success: function (response) {
+                      form.save()
+                    },
+                    error: function (response) {
+                        alert(response.responseJSON.errors);
+                        console.log(response.responseJSON.errors)
+                    }
+                });
+                return false;
+            });
+        })
+    </script>
+  </form>
+    {% endblock javascript %}
+</body>

@@ -7,45 +7,45 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-  <form id="FormularzKsiazek" method="Post">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Wypożyczalnia Książek</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link" href="home">Strona Główna</a>
-                <a class="nav-item nav-link active" href="#">Dodaj Książkę<span class="sr-only">*</span></a>
-            </div>
-        </div>
-    </nav>
-<body>
-  {% csrf_token %}
-  {{ form|crispy  }}
-    <div class="container mt-5 w-50">
-            <input type="submit" name="signupSubmit" class="btn btn-success btn-lg" />
-    </div>
+  <nav class="navbar navbar-expand-sm bg-light">
+  <form action="home" method="post" class="form">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="home">Strona Główna</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="dodaj">Dodaj Książkę*</a>
+      </li>
+    </ul>
+    </form>
+    <form id="formularz" action="home" method="post">
+      {% csrf_token %}
+      <H2>Tytuł Książki</h2>
+        {{formularz.tytul}}
+      <H2>Autor</h2>
+        {{formularz.autor}}
+      <H2>Opis</h2>
+        {{formularz.opis}}
+        <br>
+        <br>
+      <br>
+    <input type="submit" name="formularz" class="btn btn-success btn-lg" />
+  </form>
+  <div class="container mt-5 w-50">
+    {% csrf_token %}
     {% block javascript %}
     <script>
-        $(document).ready(function () {
-            $('#contactForm').submit(function () {
-                $.ajax({
-                    data: $(this).serialize(),
-                    type: $(this).attr('method'),
-                    success: function (response) {
-                      form.save()
-                    },
-                    error: function (response) {
-                        alert(response.responseJSON.errors);
-                        console.log(response.responseJSON.errors)
-                    }
-                });
-                return false;
-            });
-        })
+      $(document).ready(function () {
+      $('#formularz').submit(function () {
+      $.ajax({
+          data: $(this).serialize(),
+          type: $(this).attr('method'),
+          success: function (response) {
+            formularz.save();
+              },
+              error: function (response) {
+                        }
+            });})})
     </script>
-  </form>
     {% endblock javascript %}
-</body></html>
+</body>

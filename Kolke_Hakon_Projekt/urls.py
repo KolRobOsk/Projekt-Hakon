@@ -23,5 +23,5 @@ urlpatterns = [
     path('admin', admin.site.urls),
     path('', views.home),
     path('dodaj', views.dodaj),
-
+    path('ksiazki', views.ksiazki),
 ]
