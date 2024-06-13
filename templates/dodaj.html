@@ -3,12 +3,11 @@
   {% load bootstrap5 %}
   {% bootstrap_css %}
   {% bootstrap_javascript %}
+  {% load crispy_forms_tags %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-
-  <form action="/url/to/submit/" method="post" class="form">
-
-    {% block title %}{% endblock %}
+  <form id="FormularzKsiazek" method="Post">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Wypożyczalnia Książek</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
@@ -22,8 +21,31 @@
             </div>
         </div>
     </nav>
-
-
-    {% block content %}
-    {% endblock %}
-</div>
+<body>
+  {% csrf_token %}
+  {{ form|crispy  }}
+    <div class="container mt-5 w-50">
+            <input type="submit" name="signupSubmit" class="btn btn-success btn-lg" />
+    </div>
+    {% block javascript %}
+    <script>
+        $(document).ready(function () {
+            $('#contactForm').submit(function () {
+                $.ajax({
+                    data: $(this).serialize(),
+                    type: $(this).attr('method'),
+                    success: function (response) {
+                      form.save()
+                    },
+                    error: function (response) {
+                        alert(response.responseJSON.errors);
+                        console.log(response.responseJSON.errors)
+                    }
+                });
+                return false;
+            });
+        })
+    </script>
+  </form>
+    {% endblock javascript %}
+</body></html>
