@@ -25,6 +25,8 @@ urlpatterns = [
     path('admin', admin.site.urls),
     path('', views.homeview.as_view()),
     path('dodaj', views.dodaj),
-    path('ksiazki', views.ksiazki),
+    path('ksiazki', views.ksiazki, name='ksiazki'),
+    path('dodajrec', views.dodajrec),
+    path('dodajkat', views.dodajkat),
     path('ksiazka/<int:pk>', views.bookview.as_view(), name='szczegóły książki')
 ]

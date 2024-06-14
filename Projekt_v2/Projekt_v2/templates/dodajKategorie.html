@@ -14,28 +14,21 @@
         <a class="nav-link" href="home">Strona Główna</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="dodaj">Dodaj Książkę*</a>
+        <a class="nav-link" href="dodaj">Dodaj Książkę</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="dodajrec">Dodaj Recenzję</a>
       </li>
-        <li class="nav-item">
-          <a class="nav-link" href="dodajkat">Dodaj Kategorię</a>
-        </li>
+      <li class="nav-item">
+        <a class="nav-link" href="dodajkat">Dodaj Kategorię*</a>
+      </li>
     </ul>
     </form>
     </nav>
-    <form id="formularz" method="post">
+    <form id="formularz3" method="post">
       {% csrf_token %}
-      <H2>Tytuł Książki</h2>
-        <h2>{{formularz.tytul}}</h2>
-      <H2>Autor</h2>
-        {{formularz.autor}}
-        <H2>Opis</h2>
-          {{formularz.opis}}
-          <H2>Kategoria</h2>
-          {{formularz.kategoria}}
-
+      <H2>Kategoria</h2>
+        <h2>{{formularz3.nazwa}}</h2>
         <br>
         <br>
       <br>

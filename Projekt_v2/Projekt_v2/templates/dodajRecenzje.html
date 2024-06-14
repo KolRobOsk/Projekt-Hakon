@@ -1,5 +1,5 @@
 <head>
-  <title>Wypożyczalnia</title>
+    <title>Wypożyczalnia</title>
   {% load bootstrap5 %}
   {% bootstrap_css %}
   {% bootstrap_javascript %}
@@ -14,28 +14,25 @@
         <a class="nav-link" href="home">Strona Główna</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="dodaj">Dodaj Książkę*</a>
+        <a class="nav-link" href="dodaj">Dodaj Książkę</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="dodajrec">Dodaj Recenzję</a>
+        <a class="nav-link" href="dodajrec">Dodaj Recenzję*</a>
       </li>
-        <li class="nav-item">
-          <a class="nav-link" href="dodajkat">Dodaj Kategorię</a>
-        </li>
+      <li class="nav-item">
+        <a class="nav-link" href="dodajkat">Dodaj Kategorię</a>
+      </li>
     </ul>
     </form>
     </nav>
-    <form id="formularz" method="post">
+    <form id="formularz2" method="post">
       {% csrf_token %}
       <H2>Tytuł Książki</h2>
-        <h2>{{formularz.tytul}}</h2>
-      <H2>Autor</h2>
-        {{formularz.autor}}
-        <H2>Opis</h2>
-          {{formularz.opis}}
-          <H2>Kategoria</h2>
-          {{formularz.kategoria}}
-
+        <h2>{{formularz2.ksiazka}}</h2>
+      <H2>Autor Recenzji</h2>
+        {{formularz2.autor_rec}}
+          <H2>Ocena</h2>
+            {{formularz2.ocena}}
         <br>
         <br>
       <br>

@@ -18,13 +18,34 @@
         <li class="nav-item">
           <a class="nav-link" href="dodaj">Dodaj Książkę</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="dodajrec">Dodaj Recenzję</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="dodajkat">Dodaj Kategorię</a>
+        </li>
       </ul>
       </form>
     </nav>
+    <div id=lista_ksiazek>
+    {% csrf_token %}
     {% for ksiazka in object_list %}
-    <li><a href="{% url 'szczegóły książki' ksiazka.pk %}" >
+    <a  href="{% url 'szczegóły książki' ksiazka.pk %}" >
     {{ksiazka.tytul}}</a> - {{ksiazka.autor}}
-    <br>  {{ksiazka.opis}} </br>
+    <br><a id=opis>{{ksiazka.opis}}</a></br>
     {% endfor %}
+  </div>
+<script>
+update().setInterval('update()', 2) ;
+update();
+var update = function() {
+    $.ajax({
+        type : 'GET',
+        url : 'ksiazki',
+        data: { CSRF: getCSRFTokenValue()}
+      }),
+    },
+
+</script>
 </body>
 </html>
