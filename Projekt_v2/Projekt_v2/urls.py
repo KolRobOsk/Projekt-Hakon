@@ -17,11 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from . import views
+from django.core import serializers
+from django.shortcuts import redirect
 
 urlpatterns = [
-    path('home', views.home),
+    path('home', views.homeview.as_view(), name='homepage'),
     path('admin', admin.site.urls),
-    path('', views.home),
+    path('', views.homeview.as_view()),
     path('dodaj', views.dodaj),
     path('ksiazki', views.ksiazki),
+    path('ksiazka/<int:pk>', views.bookview.as_view(), name='szczegóły książki')
 ]

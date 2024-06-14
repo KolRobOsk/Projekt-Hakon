@@ -1,12 +1,15 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+import django.db.models.options as options
 
 class Ksiazka(models.Model):
     tytul = models.CharField(max_length=255)
     autor = models.CharField(max_length=255)
-    opis = models.CharField(max_length=255)
+    opis = models.TextField()
     def __str__(self):
-        return self.name
+        return self.name + '|' + self.autor + '|' + self.opis
+
+
 #    kategoria = models.ForeignKey("Recenzja", on_delete=models.CASCADE)
 
 # class Recenzja(models.Model):
