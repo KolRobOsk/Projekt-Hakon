@@ -18,10 +18,10 @@
 </div>
 <br>
 <a href="{% url 'homepage' %}" >Powrót</a>
-
 <div id=lista_recenzji>
 {% csrf_token %}
-{% for recenzja in recenzje %}
+{% if recenzje %}
+{% for recenzja in get_object %}
 {% if recenzja.ksiazka == ksiazka.tytul %}
 <div class="card">
 <div class="card-header">
@@ -42,5 +42,6 @@
 </div>
 {% endif %}
 {% endfor %}
+{% endif %}
 </div>
 </div>

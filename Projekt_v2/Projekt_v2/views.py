@@ -1,5 +1,3 @@
-def html(request):
-    return render(request, 'Blog/index.html')
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -72,9 +70,6 @@ def homeview(request):
     object_list = Ksiazka.objects.all()
     object_list_serialized = serializers.serialize('json', object_list)
     return render(request, 'homepage.html', {'object_list':object_list})
-def zwroc_recenzje():
-    opinie = Recenzja.objects.all()
-    return opinie
 #książka szczegóły
 class bookview(DetailView):
     model = Ksiazka
@@ -96,3 +91,5 @@ class RejestracjaUzytkownikaView(generic.CreateView):
     form_class = UserCreationForm
     template_name = 'rejestracja.html'
     success_url = '/home'
+    def get_initial(self):
+        return { 'Recenzje': Recenzja.objects.all() }

@@ -30,12 +30,12 @@
         <li class="nav-item">
           <a class="nav-link" href="/login">Logowanie</a>
         </li>
+        {%endif%}
         <li class="nav-item">
           <a class="nav-link" href="/rejestracja">Rejestracja</a>
         </li>
-        {%endif%}
-
     </ul>
+    {%if user.is_authenticated  %}
     </form>
     </nav>
     <form id="formularz" method="post">
@@ -53,6 +53,8 @@
       <br>
     <input type="submit"  class="btn btn-success btn-lg" />
   </form>
+  {%else %}
+  {%endif%}
   <div class="container mt-5 w-50">
     {% csrf_token %}
     {% block javascript %}

@@ -36,6 +36,7 @@
       {%endif%}
 
     </ul>
+    {%if user.is_authenticated  %}
     </form>
     </nav>
     <form id="formularz3" method="post">
@@ -47,6 +48,7 @@
       <br>
     <input type="submit"  class="btn btn-success btn-lg" />
   </form>
+  {%endif%}
   <div class="container mt-5 w-50">
     {% csrf_token %}
     {% block javascript %}

@@ -12,7 +12,7 @@ class Ksiazka(models.Model):
     def __str__(self):
         return self.tytul
 class Recenzja(models.Model):
-    ksiazka = models.ForeignKey("Ksiazka", on_delete=models.CASCADE)
+    ksiazka = models.ForeignKey("Ksiazka", related_name="ksiazeczka", on_delete=models.CASCADE)
     autor_rec = models.ForeignKey(get_user_model(),
         on_delete=models.CASCADE )
     opinia = models.TextField()
