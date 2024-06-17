@@ -4,10 +4,16 @@
 {% load crispy_forms_tags %}
 <script src="https://github.com/twbs/examples/blob/main/starter/index.html"></script>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-<h1 style="color:white;">Tytuł: {{ksiazka.tytul}}</h1>
+<h1 style="color:white;">{{ksiazka.tytul}}</h1>
 </nav>
+<div class="card">
+<div class="card-header">
 <small>Autor: {{ksiazka.autor}}</small><br>
 <hr>
+<a style="font-family:'Black Adder'; font-size: 25px "  >
 {{ksiazka.opis}}
+</a>
+</div>
+</div>
 <br>
 <a href="{% url 'homepage' %}" >Powrót</a>

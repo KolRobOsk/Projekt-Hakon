@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView
-from wypozyczalnia.forms import FormularzKsiazek, FormularzRecenzji, FormularzKategorii
-from wypozyczalnia.models import Ksiazka
+from wypozyczalnia.forms import FormularzKsiazek, FormularzRecenzji, FormularzKategorii, FormularzSzukania
+from wypozyczalnia.models import Ksiazka, Kategoria, SzukanaKsiazka
 from django.views.generic import ListView
 from django.http import JsonResponse
 from collections import Counter
@@ -11,6 +11,9 @@ from rest_framework.parsers import JSONParser
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView, DetailView
+from urllib.parse import urlparse
+from django.forms.models import model_to_dict
+import json
 #wyszukiwanie kategorii w bazie danych
 def kategorie(request):
     kategorie = kategoria.objects.all()
@@ -18,6 +21,11 @@ def kategorie(request):
     return JsonResponse(kategorie, safe=False)
 #wyszukiwanie książek w bazie danych
 def ksiazki(request):
+    ksiazki = Ksiazka.objects.all()
+    ksiazki = serializers.serialize("xml", ksiazki)
+    return JsonResponse(ksiazki, safe=False)
+#wyszukiwanie czesci książek w bazie danych
+def czesc_ksiazek(tytuly):
     ksiazki = Ksiazka.objects.all()
     ksiazki = serializers.serialize("xml", ksiazki)
     return JsonResponse(ksiazki, safe=False)
@@ -55,10 +63,23 @@ def dodajkat(request):
     formularz3 = FormularzKategorii()
     return render(request, 'dodajKategorie.html', {'formularz3':formularz3})
 #strona domowa
-class homeview(ListView):
-    model = Ksiazka
-    template_name = 'homepage.html'
+def homeview(request):
+    object_list = Ksiazka.objects.all()
+    object_list_serialized = serializers.serialize('json', object_list)
+    return render(request, 'homepage.html', {'object_list':object_list})
 #książka szczegóły
 class bookview(DetailView):
     model = Ksiazka
     template_name = 'book.html'
+#strona wyszukiwanie
+def filterview(request, tytul):
+    ksiazki_adres = request.build_absolute_uri()
+    ksiazki_adres = tytul.split("filter/",1)[0]
+    ksiazki = filtruj_ksiazki(ksiazki_adres)
+    return render(request, 'filtruj.html', {'object_list_serialized':ksiazki})
+#filtrowanie książek nowe
+def filtruj_ksiazki(tytul):
+    lista_ksiazek=[]
+    lista_ksiazek=[ksiazka.pk for ksiazka in Ksiazka.objects.all() if not tytul.lower() in ksiazka.tytul.lower()]
+    lista_ksiazek = Ksiazka.objects.exclude(pk__in=lista_ksiazek)
+    return lista_ksiazek

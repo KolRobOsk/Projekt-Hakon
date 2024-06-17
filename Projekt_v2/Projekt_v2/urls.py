@@ -15,18 +15,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from . import views
 from django.core import serializers
 from django.shortcuts import redirect
 
 urlpatterns = [
-    path('home', views.homeview.as_view(), name='homepage'),
+    path('home', views.homeview, name='homepage'),
     path('admin', admin.site.urls),
-    path('', views.homeview.as_view()),
+    path('', views.homeview),
     path('dodaj', views.dodaj),
     path('ksiazki', views.ksiazki, name='ksiazki'),
     path('dodajrec', views.dodajrec),
     path('dodajkat', views.dodajkat),
-    path('ksiazka/<int:pk>', views.bookview.as_view(), name='szczegóły książki')
+    path('ksiazka/<int:pk>', views.bookview.as_view(), name='szczegóły książki'),
+    path('filter/<str:tytul>', views.filterview, name='filter'),
 ]

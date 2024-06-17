@@ -11,16 +11,16 @@
   <form action="home" method="post" class="form">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="home">Strona Główna</a>
+        <a class="nav-link" href="/home">Strona Główna</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="dodaj">Dodaj Książkę*</a>
+        <a class="nav-link" href="/dodaj">Dodaj Książkę*</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="dodajrec">Dodaj Recenzję</a>
+        <a class="nav-link" href="/dodajrec">Dodaj Recenzję</a>
       </li>
         <li class="nav-item">
-          <a class="nav-link" href="dodajkat">Dodaj Kategorię</a>
+          <a class="nav-link" href="/dodajkat">Dodaj Kategorię</a>
         </li>
     </ul>
     </form>
@@ -35,7 +35,6 @@
           {{formularz.opis}}
           <H2>Kategoria</h2>
           {{formularz.kategoria}}
-
         <br>
         <br>
       <br>
@@ -53,7 +52,7 @@
           },
               error: function (response) {
                         }
-            });})})
+            });})
     </script>
     {% endblock javascript %}
 </body>

@@ -10,42 +10,89 @@
 </head>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <form action="home" method="post" class="form">
+        <form action="home" method="post" class="form">
       <ul class="navbar-nav">
+          <li class="nav-item">
+            <a id=home class="nav-link" href="/home">Strona Główna*</a>
+          </li>
         <li class="nav-item">
-          <a class="nav-link" href="home">Strona Główna*</a>
+          <a class="nav-link" href="/dodaj">Dodaj Książkę</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="dodaj">Dodaj Książkę</a>
+          <a class="nav-link" href="/dodajrec">Dodaj Recenzję</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="dodajrec">Dodaj Recenzję</a>
+          <a class="nav-link" href="/dodajkat">Dodaj Kategorię</a>
         </li>
+        <form method="post" >
         <li class="nav-item">
-          <a class="nav-link" href="dodajkat">Dodaj Kategorię</a>
+          {% csrf_token %}
+            <input type="text" id="filter"></input><br><br>
+            <li>
+            <a href="javascript:przekieruj();">Filtruj</a>
+          </li>
         </li>
+      </form>
       </ul>
       </form>
     </nav>
+    </div>
     <div id=lista_ksiazek>
     {% csrf_token %}
     {% for ksiazka in object_list %}
-    <a  href="{% url 'szczegóły książki' ksiazka.pk %}" >
-    {{ksiazka.tytul}}</a> - {{ksiazka.autor}}
-    <br><a id=opis>{{ksiazka.opis}}</a></br>
-    {% endfor %}
+    <div class="card">
+    <div class="card-header">
+    <a style="font-family:'Black Adder'; font-size: 40px; Text-decoration: none" href="{% url 'szczegóły książki' ksiazka.pk %}" >
+      {{ksiazka.tytul}}
+    </a>
+    <a style="font-family:'Black Adder'; font-size: 25px; Text-decoration: none">
+       - {{ksiazka.autor}}
+     </a>
+    <br>
+    <a style="font-family:'Black Adder'; font-size: 20px;" id=opis>
+      {{ksiazka.opis}}
+    </a>
+  </br>
   </div>
-<script>
-update().setInterval('update()', 2) ;
-update();
-var update = function() {
-    $.ajax({
-        type : 'GET',
-        url : 'ksiazki',
-        data: { CSRF: getCSRFTokenValue()}
-      }),
-    },
-
+  {% endfor %}
+</div>
+  </div>
+<script type="text/javascript">
+$(document).ready(function () {
+$.ajax({
+  type: "POST",
+  url: "home",
+  async: true,
+  crossDomain:true,
+  data: {'ksiazka': 'ksiazka', 'object_list':'object_list_serialized', 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+  success:function ksiazki_up(ksiazka, object_list){
+    $('#lista_ksiazek').load(' #lista_ksiazek');
+     console.log("Done");
+     $("#ksiazki_up").load("home",ksiazka);
+       setTimeout( function() {
+       Aktualizuj(object_list);
+       setInterval(ksiazki_up(ksiazka),5000);
+     },5000)
+         },
+  })})
+  function Aktualizuj(ksiazka){
+    ksiazki = document.getElementById('filter').value;
+    $('<div />').append(ksiazka).find('#lista_ksiazek').html();
+    $('#lista_ksiazek').html(ksiazka);
+    return ksiazki;
+}
+function przekieruj() {
+  tytul = document.getElementById('filter').value;
+  adres = "/filter/"+tytul;
+  return top.location.href = adres;
+}
+function czy_puste(ksiazki){
+  if (!$.trim(ksiazki)){
+      return False;
+  }else{
+    return True;
+  }
+}
 </script>
 </body>
 </html>
