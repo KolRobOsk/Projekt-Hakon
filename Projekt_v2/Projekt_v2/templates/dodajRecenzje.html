@@ -22,6 +22,18 @@
       <li class="nav-item">
         <a class="nav-link" href="/dodajkat">Dodaj Kategorię</a>
       </li>
+      {%if user.is_authenticated  %}
+      <li class="nav-item">
+        <a class="nav-link" href="/logout">Wylogowanie</a>
+      </li>
+      {%else%}
+      <li class="nav-item">
+        <a class="nav-link" href="/login">Logowanie</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/rejestracja">Rejestracja</a>
+      </li>
+      {%endif%}
     </ul>
     </form>
     </nav>
@@ -30,9 +42,14 @@
       <H2>Tytuł Książki</h2>
         <h2>{{formularz2.ksiazka}}</h2>
       <H2>Autor Recenzji</h2>
-        {{formularz2.autor_rec}}
+        {%with request.user as formularz2.autor_rec%}
+        {{request.user}}
+        {% endwith %}
+
           <H2>Ocena</h2>
             {{formularz2.ocena}}
+            <H2>Treść recenzji</h2>
+              {{formularz2.opinia}}
         <br>
         <br>
       <br>

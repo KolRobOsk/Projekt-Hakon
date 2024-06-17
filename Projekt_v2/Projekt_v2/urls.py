@@ -19,15 +19,19 @@ from django.urls import path, include
 from . import views
 from django.core import serializers
 from django.shortcuts import redirect
-
+from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('home', views.homeview, name='homepage'),
-    path('admin', admin.site.urls),
     path('', views.homeview),
+    path('admin', admin.site.urls),
     path('dodaj', views.dodaj),
     path('ksiazki', views.ksiazki, name='ksiazki'),
     path('dodajrec', views.dodajrec),
     path('dodajkat', views.dodajkat),
     path('ksiazka/<int:pk>', views.bookview.as_view(), name='szczegóły książki'),
     path('filter/<str:tytul>', views.filterview, name='filter'),
+    path('rejestracja/', views.RejestracjaUzytkownikaView.as_view()),
+    path('login/', auth_views.LoginView.as_view(), {'template_name': 'registration/login.html'}, name = 'login'),
+    path('logout/', auth_views.LogoutView.as_view(), {'template_name': 'registration/logged_out.html'}, name = 'logout'),
+    path('ksiazka/<int:pk>', include(views.zwroc_recenzje())),
 ]
