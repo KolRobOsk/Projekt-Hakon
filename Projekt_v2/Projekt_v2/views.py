@@ -41,7 +41,6 @@ def dodaj(request):
             formularz.save()
         else:
             formularz = FormularzKsiazek()
-    formularz = FormularzKsiazek()
     return render(request, 'dodaj.html', {'formularz':formularz})
 #dodawanie recenzji
 def dodajrec(request):
@@ -52,7 +51,6 @@ def dodajrec(request):
             formularz2.save()
         else:
             formularz2 = FormularzRecenzji()
-    formularz2 = FormularzRecenzji()
     return render(request, 'dodajRecenzje.html', {'formularz2':formularz2})
 #dodawanie kategorii
 def dodajkat(request):
@@ -63,7 +61,6 @@ def dodajkat(request):
             formularz3.save()
         else:
             formularz3 = FormularzKategorii()
-    formularz3 = FormularzKategorii()
     return render(request, 'dodajKategorie.html', {'formularz3':formularz3})
 #strona domowa
 def homeview(request):
