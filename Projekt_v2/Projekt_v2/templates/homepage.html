@@ -1,8 +1,19 @@
 {% extends 'base.html' %}
-{% block strona %}
+{% load index %}
+  <li class="nav-item">
+<div class="col-sm" name="pasek wysz">
+  {% csrf_token %}
+</div>
+  <input type="text" id="filter"></input><br><br>
+  <div class="col-sm" >
+   <a href="javascript:przekieruj();">Filtruj</a>
+ </div>
+</li>
+<nav>
+ {% block strona %}
     <div id=lista_ksiazek>
     {% csrf_token %}
-    {% for ksiazka in object_list %}
+    {% for ksiazka in ksiazki %}
     <div class="card">
     <div class="card-header">
     <a style="font-family:'Black Adder'; font-size: 40px; Text-decoration: none" href="{% url 'szczegóły książki' ksiazka.pk %}" >
@@ -15,45 +26,15 @@
     <a style="font-family:'Black Adder'; font-size: 20px;" id=opis>
       {{ksiazka.opis}}
     </a>
+    <br>
+    <a style="font-family:'Black Adder'; font-size: 20px;">
+      {%with ks=ksiazka.pk|add:"-1"%}
+        {{srednie_oceny|index:0|index:ks}}
+        {%endwith%}
+    </a>
   </div>
   {% endfor %}
 </div>
   </div>
-<script type="text/javascript">
-$(document).ready(function () {
-$.ajax({
-  type: "POST",
-  url: "home",
-  async: true,
-  crossDomain:true,
-  data: {'ksiazka': 'ksiazka', 'object_list':'object_list_serialized', 'csrfmiddlewaretoken': '{{ csrf_token }}'},
-  success:function ksiazki_up(ksiazka, object_list){
-    $('#lista_ksiazek').load(' #lista_ksiazek');
-     console.log("Done");
-     $("#ksiazki_up").load("home",ksiazka);
-       setTimeout( function() {
-       Aktualizuj(object_list);
-       setInterval(ksiazki_up(ksiazka),5000);
-     },5000)
-         },
-  })})
-  function Aktualizuj(ksiazka){
-    ksiazki = document.getElementById('filter').value;
-    $('<div />').append(ksiazka).find('#lista_ksiazek').html();
-    $('#lista_ksiazek').html(ksiazka);
-    return ksiazki;
-}
-function przekieruj() {
-  tytul = document.getElementById('filter').value;
-  adres = "/filter/"+tytul;
-  return top.location.href = adres;
-}
-function czy_puste(ksiazki){
-  if (!$.trim(ksiazki)){
-      return False;
-  }else{
-    return True;
-  }
-}
-</script>
-{% endblock %}
+  {% endblock %}
+</nav>

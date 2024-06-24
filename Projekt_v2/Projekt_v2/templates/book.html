@@ -5,7 +5,6 @@
 <script src="https://github.com/twbs/examples/blob/main/starter/index.html"></script>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 <h1 style="color:white;">{{ksiazka.tytul}}</h1>
-
 </nav>
 <div class="card">
 <div class="card-header">
@@ -21,15 +20,12 @@
 <div id=lista_recenzji>
 {% csrf_token %}
 {% if recenzje %}
-{% for recenzja in get_object %}
-{% if recenzja.ksiazka == ksiazka.tytul %}
+{% for recenzja in recenzje %}
+{% if recenzja.ksiazka.tytul == ksiazka.tytul %}
 <div class="card">
 <div class="card-header">
-<a style="font-family:'Black Adder'; font-size: 40px; Text-decoration: none" >
-  {{recenzja.ksiazka}}
-</a>
 <a style="font-family:'Black Adder'; font-size: 25px; Text-decoration: none">
-   - {{recenzja.autor_rec}}
+{{recenzja.autor_rec}}
  </a>
  <br>
  <a style="font-family:'Black Adder'; font-size: 20px;" id=opis>
