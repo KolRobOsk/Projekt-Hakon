@@ -28,6 +28,7 @@ urlpatterns = [
     path('dodajkat', views.dodajkat),
     path('ksiazka/<int:pk>', views.bookview, name='szczegóły książki'),
     path('filter/<str:tytul>', views.filterview, name='filter'),
+    path('kat/<str:kategoria>', views.katview, name=''),
     path('rejestracja/', views.RejestracjaUzytkownikaView.as_view()),
     path('login/', auth_views.LoginView.as_view(), {'template_name': 'registration/login.html'}, name = 'login'),
     path('logout/', auth_views.LogoutView.as_view(), {'template_name': 'registration/logged_out.html'}, name = 'logout'),

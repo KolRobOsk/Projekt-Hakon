@@ -32,14 +32,8 @@
           <a class="nav-link" href="/rejestracja">Rejestracja</a>
         </li>
         {%endif%}
-        <li class="nav-item">
-        <input type="text" id="filter"></input><br><br>
-      </li>
-      <li class="nav-item">
-         <a href="javascript:przekieruj();">Filtruj</a>
-         {% csrf_token %}
-       </li>
-    </ul>
+       {%block nav%}{%endblock%}
+     </ul>
   </form>
   <li class="nav-item">
   {% csrf_token %}
@@ -85,6 +79,15 @@ function przekieruj() {
   }
   else{
   adres = "/filter/"+tytul;
+  return top.location.href = adres;
+}};
+function przekieruj2() {
+  kategoria = document.getElementById('filtr_kat').value;
+  if (czy_puste(kategoria)){
+    return top.location.href = '/home';
+  }
+  else{
+  adres = "/kat/"+kategoria;
   return top.location.href = adres;
 }};
 </script>

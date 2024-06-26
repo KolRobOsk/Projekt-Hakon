@@ -1,5 +1,5 @@
 from django import forms
-from .models import Ksiazka, Recenzja, Kategoria, SzukanaKsiazka
+from .models import Ksiazka, Recenzja, Kategoria, SzukanaKsiazka, SzukanaKategoria
 from django.core import serializers
 from django_filters.views import FilterView
 class FormularzKsiazek(forms.ModelForm):
@@ -22,4 +22,10 @@ class FormularzSzukania(forms.ModelForm):
         model = SzukanaKsiazka
         fields = {
             'tytul',
+        }
+class FormularzFiltrowania(forms.ModelForm):
+    class Meta:
+        model = SzukanaKategoria
+        fields = {
+            'nazwa',
         }

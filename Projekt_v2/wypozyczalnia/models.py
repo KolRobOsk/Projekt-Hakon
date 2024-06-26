@@ -31,3 +31,8 @@ class SzukanaKsiazka(Ksiazka):
         return Ksiazka.objects.filter(tytul=tytul)
     def __str__(self):
         return self.tytul
+class SzukanaKategoria(Kategoria):
+    def filter():
+        return Kategoria.objects.filter(nazwa=nazwa)
+    def __str__(self):
+        return self.tytul
