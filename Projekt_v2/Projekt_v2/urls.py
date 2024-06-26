@@ -25,7 +25,6 @@ urlpatterns = [
     path('home', views.homeview, name='homepage'),
     path('admin', admin.site.urls),
     path('dodaj', views.dodaj),
-    path('dodajrec', views.dodajrec),
     path('dodajkat', views.dodajkat),
     path('ksiazka/<int:pk>', views.bookview, name='szczegóły książki'),
     path('filter/<str:tytul>', views.filterview, name='filter'),

@@ -2,8 +2,8 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 import django.db.models.options as options
 from django.db import transaction
+from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import User
 class Ksiazka(models.Model):
     tytul = models.CharField(max_length=255)
     autor = models.CharField(max_length=255)
@@ -13,8 +13,8 @@ class Ksiazka(models.Model):
         return self.tytul
 class Recenzja(models.Model):
     ksiazka = models.ForeignKey("Ksiazka", related_name="ksiazeczka", on_delete=models.CASCADE)
-    autor_rec = models.ForeignKey(get_user_model(),
-        on_delete=models.CASCADE )
+    user = models.ForeignKey(get_user_model(),
+        on_delete=models.CASCADE)
     opinia = models.TextField()
     ocena = models.IntegerField(
     default=1,

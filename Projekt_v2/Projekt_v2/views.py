@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.utils import timezone
-from django.contrib.auth.models import User
 from django.views.generic.edit import CreateView
 from wypozyczalnia.forms import FormularzKsiazek, FormularzRecenzji, FormularzKategorii, FormularzSzukania
 from wypozyczalnia.models import Ksiazka, Kategoria, SzukanaKsiazka, Recenzja
@@ -15,9 +14,11 @@ from django.views import generic
 from urllib.parse import urlparse
 from django.forms.models import model_to_dict
 import json
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.conf import settings
+from django.contrib.auth import get_user_model
 #filtrowanie książek nowe
 def filtruj_ksiazki(tytul):
     lista_ksiazek=[]
@@ -72,19 +73,27 @@ def homeview(request):
         if Ksiazka.objects.get(tytul=recenzja.ksiazka):
             tabela_srednich_ocen[0][Ksiazka.objects.get(tytul=recenzja.ksiazka).pk-1] += recenzja.ocena
             tabela_srednich_ocen[1][Ksiazka.objects.get(tytul=recenzja.ksiazka).pk-1] += 1
-    for i in range(len(tabela_srednich_ocen)+1):
-        if tabela_srednich_ocen[0][i] == 0:
+        if len(tabela_srednich_ocen)==0:
             pass
         else:
-            tabela_srednich_ocen[0][i]=round(tabela_srednich_ocen[0][i]/tabela_srednich_ocen[1][i], 2)
+            for i in range(len(tabela_srednich_ocen)-   1):
+                if tabela_srednich_ocen[0][i] == 0:
+                    pass
+                else:
+                    tabela_srednich_ocen[0][i]=round(tabela_srednich_ocen[0][i]/tabela_srednich_ocen[1][i], 2)
     return render(request, 'homepage.html', {'ksiazki': ksiazki, 'srednie_oceny': tabela_srednich_ocen})
 #książka szczegóły
 def bookview(request, pk):
-    return render(request, 'book.html', {'recenzje': Recenzja.objects.all(), 'ksiazka': Ksiazka.objects.get(pk=pk)})
+    template_name = 'book.html'
+    formularz = FormularzRecenzji(request.POST)
+    if request.method == 'POST':
+        if formularz.is_valid():
+            formularz.save()
+    return render(request, 'book.html', {'recenzje': Recenzja.objects.all(), 'ksiazka': Ksiazka.objects.get(pk=pk), 'formularz':formularz})
 #strona wyszukiwanie
 def filterview(request, tytul):
     ksiazki_pk = Ksiazka.objects.all().count()
-    tabela_srednich_ocen, recenzje  = [[],[]], Recenzja.objects.all()
+    tabela_srednich_ocen, ksiazki, recenzje  = [[],[]], Ksiazka.objects.all(), Recenzja.objects.all()
     for i in range(ksiazki_pk):
         tabela_srednich_ocen[0].append(float(0))
         tabela_srednich_ocen[1].append(float(0))
@@ -92,11 +101,14 @@ def filterview(request, tytul):
         if Ksiazka.objects.get(tytul=recenzja.ksiazka):
             tabela_srednich_ocen[0][Ksiazka.objects.get(tytul=recenzja.ksiazka).pk-1] += recenzja.ocena
             tabela_srednich_ocen[1][Ksiazka.objects.get(tytul=recenzja.ksiazka).pk-1] += 1
-    for i in range(len(tabela_srednich_ocen)+1):
-        if tabela_srednich_ocen[0][i] == 0:
-            pass
-        else:
-            tabela_srednich_ocen[0][i]=round(tabela_srednich_ocen[0][i]/tabela_srednich_ocen[1][i], 2)
+    if len(tabela_srednich_ocen)==0:
+        pass
+    else:
+        for i in range(len(tabela_srednich_ocen)-1):
+            if tabela_srednich_ocen[0][i] == 0:
+                pass
+            else:
+                tabela_srednich_ocen[0][i]=round(tabela_srednich_ocen[0][i]/tabela_srednich_ocen[1][i], 2)
     ksiazki_adres = request.build_absolute_uri()
     ksiazki_adres = tytul.split("filter/",1)[0]
     ksiazki = filtruj_ksiazki(ksiazki_adres)
